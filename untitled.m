@@ -3,8 +3,8 @@ clc
 close all
 
 %% Simulation Parameters
-N = 3; % number of grid points
-tstop = .0001; % stopping time
+N = 10; % number of grid points
+tstop = .001; % stopping time
 
 %% Problem Parameters
 L = 0.25; % repeat length
@@ -46,11 +46,11 @@ L1 = Lmat(F1,B1);
 L2 = Lmat(F2,B2);
 
 % Specify periodic boundary conditions
-L1(N,1) = B1(1); % (equation 24)
-L1(1,N) = F1(end); % (equation 25)
+L1(N,1) = B1(2); % (equation 24)
+L1(1,N) = F1(end-1); % (equation 25)
 
-L2(N,1) = B2(1); % (equation 24)
-L2(1,N) = F2(end); % (equation 25)
+L2(N,1) = B2(2); % (equation 24)
+L2(1,N) = F2(end-1); % (equation 25)
 
 % Form M matrix (equation 23)
 M = [L1 - K12 , K21 ; K12 , L2 - K21];
@@ -83,23 +83,23 @@ end
 % Jump rates
 function fmat = Fmat(dphi,dx) % foward rate
     if dphi == zeros(1,length(dphi)) % if the potential is identically 0
-        fmat = zeros(1,length(dphi)); % the rate is identically 0
+        fmat = zeros(1,length(dphi) + 1); % the rate is identically 0
     else
-        fmat = dphi ./ (dx^2 * (exp(dphi) - ones(1,length(dphi)))); % (equation 10)
+        fmat = [dphi ./ (dx^2 * (exp(dphi) - ones(1,length(dphi)))) , 0]; % (equation 10)
     end
 end
 
 function bmat = Bmat(dphi,dx) % backward rate
     if dphi == zeros(1,length(dphi)) % if the potential is identically 0
-        bmat = zeros(1,length(dphi)); % the rate is identically 0
+        bmat = zeros(1,length(dphi) + 1); % the rate is identically 0
     else
-        bmat = -dphi ./ (dx^2 * (exp(-dphi) - ones(1,length(dphi)))); % (equation 11)
+        bmat = [0 , -dphi ./ (dx^2 * (exp(-dphi) - ones(1,length(dphi))))]; % (equation 11)
     end
 end
 
 % Matrix formation
 function lmat = Lmat(f,b) % L matrix
-    lmat = diag([-f - b , 0]) + diag(b,-1) + diag(f,1);
+    lmat = diag(-f - b) + diag(b(2:end),1) + diag(f(1:end-1),-1);
 end
 
 function kmat = Kmat(k,N) % K matrix
