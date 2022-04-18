@@ -75,11 +75,23 @@ pl(x,p2,2)
 rho1 = inte(p1,dx);
 rho2 = inte(p2,dx);
 
-% Plot
+% Plot probility over time
 figure;
 plot(t,rho1,'r-',t,rho2,'b-')
 xlabel('t')
 legend('\rho_1(t)','\rho_2(t)')
+
+% Show end probability
+formatSpec = 'rho_%d (t_f) = %1.8f\n';
+fprintf(formatSpec,1,rho1(end))
+fprintf(formatSpec,2,rho2(end))
+
+%% Parameter Exports
+
+init = [rho1(1) rho2(1)]; % Initial Conditions
+
+% Export
+save('params.mat','init','k12','k21','tstop')
 
 %% Functions
 

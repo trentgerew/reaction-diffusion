@@ -2,16 +2,8 @@ clear
 clc
 close all
 
-%% Simulation Parameters
-tstop = .001; % stopping time
-
-%% Problem Parameters
-% Rate constants
-k12 = 2000;
-k21 = 1000;
-
-% Initial conditions
-p0 = [.0025 .0025];
+%% Parameters
+load('params')
 
 %% Simulation
 % Form matrix
@@ -19,7 +11,7 @@ M = [-k12 , k21 ; k12 , -k21];
 
 % Solve
 tspan = [0 tstop]; % time domain
-[t,p] = ode45(@(t,p) odefun(t,p,M), tspan, p0); % solve linear system
+[t,p] = ode45(@(t,p) odefun(t,p,M), tspan, init); % solve linear system
 p = p'; % tranpose solution so rows are n and cols are t
 
 % Plot
@@ -28,9 +20,10 @@ plot(t,p(1,:),'r-',t,p(2,:),'b-')
 xlabel('t')
 legend('\rho_1(t)','\rho_2(t)')
 
-% End Value
-e1 = p(1,end)
-e2 = p(2,end)
+% Show end probability
+formatSpec = 'rho_%d (t_f) = %1.8f\n';
+fprintf(formatSpec,1,p(1,end))
+fprintf(formatSpec,2,p(2,end))
 
 %% Functions
 function dpdt = odefun(~,p,M)
