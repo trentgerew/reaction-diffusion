@@ -3,11 +3,11 @@ clc
 close all
 
 %% Simulation Parameters
-N = 10; % number of grid points
+N = 100; % number of grid points
 tstop = .001; % stopping time
 
 %% Problem Parameters
-L = 0.25; % repeat length
+L = .25; % repeat length
 
 % Rate constants
 k12 = 2000;
@@ -68,13 +68,25 @@ p2 = p(N+1:end,:);
 plt(p1,x,t,1)
 plt(p2,x,t,2)
 
+pl(x,p1,1)
+pl(x,p2,2)
+
+% Calculate probability over time
+rho1 = inte(p1,dx);
+rho2 = inte(p2,dx);
+
+% Plot
+figure;
+plot(t,rho1,'r-',t,rho2,'b-')
+xlabel('t')
+legend('\rho_1(t)','\rho_2(t)')
 
 %% Functions
 
 % Potentials
 function phi = phi1(x,L) % potential 1
-    phi = sin(2 * pi * x / L) - sin(4 * pi * x / L) / 2;
-    %phi = zeros(1,length(x));
+    %phi = sin(2 * pi * x / L) - sin(4 * pi * x / L) / 2;
+    phi = zeros(1,length(x));
 end
 
 function phi = phi2(x,L) % potential 2
@@ -113,12 +125,26 @@ function dpdt = odefun(~,p,M)
 end
 
 % Result plot
-function [] = plt(p,x,t,pltnum)
+function [] = plt(p,x,t,pltnum) % 3D surface plot p(x,t)
     figure;
     surf(t,x,p)
-    title(['p' num2str(pltnum)])
-    zlabel('p_n(t)')
+    title(['Density in space and time, n=' num2str(pltnum)])
+    zlabel('p_n(x,t)')
     xlabel('t')
     ylabel('x')
 end
-    
+
+function [] = pl(x,p,pltnum) % 2D plot p(x,t_f)
+    figure;
+    plot(x,p(:,end))
+    title(['Density in space at t_f, n=' num2str(pltnum)])
+    xlabel('x')
+    ylabel('p_n(x,t_f)')
+end
+
+% Area
+function area = inte(p,dx)
+    for i=1:size(p,2)
+        area(i) = trapz(p(:,i)) * dx;
+    end
+end

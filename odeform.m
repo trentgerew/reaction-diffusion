@@ -11,7 +11,7 @@ k12 = 2000;
 k21 = 1000;
 
 % Initial conditions
-p0 = [1 0];
+p0 = [.0025 .0025];
 
 %% Simulation
 % Form matrix
@@ -27,6 +27,10 @@ figure;
 plot(t,p(1,:),'r-',t,p(2,:),'b-')
 xlabel('t')
 legend('\rho_1(t)','\rho_2(t)')
+
+% End Value
+e1 = p(1,end)
+e2 = p(2,end)
 
 %% Functions
 function dpdt = odefun(~,p,M)
