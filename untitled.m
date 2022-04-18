@@ -14,8 +14,8 @@ k12 = 2000;
 k21 = 1000;
 
 % Initial Condition
-p0 = zeros(2*N,1);
-p0(round(N/4)) = 1; % 
+p0 = ones(2*N,1) / N;
+%p0(round(N/2)) = 1; % 
 
 % See Functions section below to change potentials
 
@@ -74,6 +74,7 @@ plt(p2,x,t,2)
 % Potentials
 function phi = phi1(x,L) % potential 1
     phi = sin(2 * pi * x / L) - sin(4 * pi * x / L) / 2;
+    %phi = zeros(1,length(x));
 end
 
 function phi = phi2(x,L) % potential 2
