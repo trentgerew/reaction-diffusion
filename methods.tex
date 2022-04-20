@@ -1,0 +1,37 @@
+%% this is necessary stuff to make the document compile:
+\documentclass[11pt]{amsart}
+\usepackage{amssymb, amsmath}
+\usepackage{colordvi,verbatim,hyperref}
+\usepackage{color,enumitem}
+\usepackage{graphicx}
+\usepackage{amsthm}
+
+%% this is for making margins the way I like them:
+\headheight=8pt
+\topmargin=0.375truein
+\topmargin=-0.2truein
+\textheight=9truein   \textwidth=6.3truein
+\oddsidemargin=.1in \evensidemargin=.1in
+
+%%this is to create new math commands. In other words, since I use theta^hat in equations a lot, I made a shorthand for it. So now instead of using $\hat\theta$ every time, I can just write $\thhat$. 
+\newcommand{\Q}{{\mathbb{Q}}}
+\newcommand{\N}{{\mathbb{N}}}
+\newcommand{\R}{{\mathbb{R}}}
+
+\pagestyle{plain}
+
+
+\date{\today}%7 Feb 2014}
+
+\begin{document}
+\title{Analogy}
+\author{Trent Gerew}
+
+\maketitle
+
+	The probability density $\rho (x,t)$ evolves according to the Fokker-Planck equation
+	\begin{equation} \label{eq:f-p}
+		\rho_t = \nabla \cdot \left( \rho \nabla \phi + \nabla \rho \right)
+	\end{equation}
+	where $\phi (x)$ is the potential energy.
+\end{document}
