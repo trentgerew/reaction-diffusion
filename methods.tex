@@ -1,10 +1,13 @@
 %% this is necessary stuff to make the document compile:
-\documentclass[11pt]{amsart}
+\documentclass[reqno,11pt]{amsart}
 \usepackage{amssymb, amsmath}
 \usepackage{colordvi,verbatim,hyperref}
-\usepackage{color,enumitem}
 \usepackage{graphicx}
 \usepackage{amsthm}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 
 %% this is for making margins the way I like them:
 \headheight=8pt
@@ -24,14 +27,61 @@
 \date{\today}%7 Feb 2014}
 
 \begin{document}
-\title{Analogy}
-\author{Trent Gerew}
+\title{An Analogy of Fokker-Planck Approximation Methods}
+\author{Trenton Gerew}
 
 \maketitle
+	\begin{figure}[h!]
+		\centering
+		
+		\begin{tikzpicture}
+			% F-P
+			\node [draw,
+				fill=Rhodamine!50,
+				minimum width=2cm,
+				minimum height=1.2cm
+				] (fp) at (0,0) {Fokker-Planck};
+			
+			% Master Equations
+			\node [draw,
+				fill=Goldenrod,
+				minimum width=2cm,
+				minimum height=1.2cm,
+				right=1cm of fp
+				] (me) {Master Equations};
+				
+			% Finite Differences
+			\node [draw,
+				fill=SpringGreen,
+				minimum width=2cm,
+				minimum height=1.2cm,
+				below=1cm of fp
+				] (fd) {Finite Differences};
+				
+			% Peskin Algorithm
+			\node [draw,
+				fill=SeaGreen,
+				minimum width=2cm,
+				minimum height=1.2cm,
+				below=1cm of me
+				] (pa) {Peskin Algorithm};
+				
+			% Arrows
+			\draw[-latex] (me.west) -- (fp.east);
+			\draw[-latex] (fd.north) -- (fp.south);
+			\draw[-latex] (pa.north) -- (me.south);
+			\draw[-latex] (pa.north west) -- (fp.south east);
+			\draw[latex-latex,dashed] (fd.east) -- (pa.west)
+				node[midway,above]{?};
+		
+		\end{tikzpicture}
+		
+		\caption{Approximation methods and their relationships to the Fokker-Planck equation. \label{fig:relationships}}
+	\end{figure}
 
 	The probability density $\rho (x,t)$ evolves according to the Fokker-Planck equation
 	\begin{equation} \label{eq:f-p}
-		\rho_t = \nabla \cdot \left( \rho \nabla \phi + \nabla \rho \right)
+		\partial_t \rho (x,t) = \partial_x \left( \rho (x,t) \partial_x \phi (x) + \partial_x \rho (x,t) \right)
 	\end{equation}
 	where $\phi (x)$ is the potential energy.
 \end{document}

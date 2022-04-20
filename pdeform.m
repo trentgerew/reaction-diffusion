@@ -3,11 +3,11 @@ clc
 close all
 
 %% Simulation Parameters
-N = 100; % number of grid points
-tstop = .001; % stopping time
+N = 200; % number of grid points
+tstop = .0001; % stopping time
 
 %% Problem Parameters
-L = .25; % repeat length
+L = 4; % repeat length
 
 % Rate constants
 k12 = 2000;
@@ -15,7 +15,6 @@ k21 = 1000;
 
 % Initial Condition
 p0 = ones(2*N,1) / N;
-%p0(round(N/2)) = 1; % 
 
 % See Functions section below to change potentials
 
@@ -97,12 +96,14 @@ save('params.mat','init','k12','k21','tstop')
 
 % Potentials
 function phi = phi1(x,L) % potential 1
-    %phi = sin(2 * pi * x / L) - sin(4 * pi * x / L) / 2;
-    phi = zeros(1,length(x));
+    phi = sin(2 * pi * x / L) - sin(4 * pi * x / L) / 2;
+    %phi = zeros(1,length(x));
 end
 
 function phi = phi2(x,L) % potential 2
-    phi = zeros(1,length(x));
+    %phi = zeros(1,length(x));
+    phi = cos(2 * pi * x / L) / 2;
+    %phi = ones(1,length(x)) * 0.1;
 end
 
 % Jump rates
